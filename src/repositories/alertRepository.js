@@ -10,9 +10,9 @@ export class AlertRepository {
         return mongoClient.collection('alertas');
     }
 
-    async createAlert({ estado, cidade, tipo, coordenadas, titulo, descricao, username, data} ) {
+    async createAlert( data ) {
         const collection = await this.getCollection();
-        await collection.insertOne({ estado, cidade, tipo, coordenadas, titulo, descricao, username, data });
+        await collection.insertOne(data);
     }
 
     async getAlerts() {
@@ -20,5 +20,4 @@ export class AlertRepository {
         const alerts = await collection.find().toArray();
         return alerts;
     }
-
 }
