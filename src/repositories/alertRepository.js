@@ -1,7 +1,7 @@
 import { client } from "../mongo/client.js";
 
 export class AlertRepository {
-    constructor(){}
+    constructor() {}
 
     async getCollection() {
         await client.connect();
@@ -11,18 +11,14 @@ export class AlertRepository {
     }
 
     async createAlert({ estado, cidade, tipo, coordenadas, titulo, descricao, username, data} ) {
-        const collection = await getCollection();
+        const collection = await this.getCollection();
         await collection.insertOne({ estado, cidade, tipo, coordenadas, titulo, descricao, username, data });
-        await client.close()
     }
 
     async getAlerts() {
         const collection = await this.getCollection();
         const alerts = await collection.find().toArray();
-        //await client.close()
         return alerts;
     }
 
 }
-
-

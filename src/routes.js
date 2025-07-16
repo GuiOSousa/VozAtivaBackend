@@ -11,6 +11,5 @@ app.get('/', (req, res) => {
 app.get('/alert', async (req, res) => {
   const alertRepository = new AlertRepository()
   const alerts = await alertRepository.getAlerts()
-  print(alerts)
-  res.send("Alerts")
+  res.send(alerts)
 })

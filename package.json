@@ -9,9 +9,19 @@
   },
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
+    "express": "^5.1.0",
     "mongo": "^0.1.0",
     "mongodb": "^6.17.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GuiOSousa/VozAtivaBackend.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/GuiOSousa/VozAtivaBackend/issues"
+  },
+  "homepage": "https://github.com/GuiOSousa/VozAtivaBackend#readme",
+  "description": ""
 }
