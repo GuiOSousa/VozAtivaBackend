@@ -1,6 +1,7 @@
 import { MongoClient, ServerApiVersion } from 'mongodb';
+import { getEnvKey } from '../env.js';
 
-const uri = 'mongodb+srv://willygutsche:PpyBDC1KxCzx0uhG@voz-ativa.xxkh1jm.mongodb.net/?retryWrites=true&w=majority&appName=voz-ativa';
+const uri = getEnvKey("URI")
 
 export const client = new MongoClient(uri, {
     serverApi: {
