@@ -30,9 +30,9 @@ export class AlertRepository {
         await collection.insertOne(data);
     }
 
-    async getAlerts() {
+    async getAlerts(filters) {
         const collection = await this.getCollection();
-        const alerts = await collection.find().toArray();
+        const alerts = await collection.find(filters).toArray();
         return alerts;
     }
 }

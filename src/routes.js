@@ -13,7 +13,8 @@ app.get('/', (req, res) => {
 })
 
 app.get('/alert', async (req, res) => {
-  const alerts = await alertRepository.getAlerts()
+  const filters = req.body
+  const alerts = await alertRepository.getAlerts(filters)
   res.send(alerts)
 })
 
