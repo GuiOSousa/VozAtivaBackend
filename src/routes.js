@@ -1,10 +1,12 @@
 import express from "express";
 import { AlertRepository } from "./repositories/alertRepository.js";
+import { UserRepository } from "./repositories/userReposiory.js";
 
 export const app = express()
 export const port = 3000
 
 const alertRepository = new AlertRepository()
+const userRepository = new UserRepository()
 
 app.use(express.json());
 
@@ -20,5 +22,16 @@ app.get('/alert', async (req, res) => {
 
 app.post('/alert', async(req, res) => {
   await alertRepository.createAlert(req.body)
+  res.send(201)
+})
+
+app.get('/user', async (req, res) => {
+  const filters = req.body
+  const users = await userRepository.getUsers(filters)
+  res.send(users)
+})
+
+app.post('/user', async(req, res) => {
+  await userRepository.createUser(req.body)
   res.send(201)
 })
