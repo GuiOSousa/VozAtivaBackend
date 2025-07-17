@@ -12,6 +12,21 @@ export class AlertRepository {
 
     async createAlert( data ) {
         const collection = await this.getCollection();
+
+        if (!data.date) {
+            const date = new Date()
+
+            data.date = new Date(Date.UTC(
+                date.getUTCFullYear(),
+                date.getUTCMonth(),
+                date.getUTCDate(),
+                date.getUTCHours(),
+                date.getUTCMinutes(),
+                date.getUTCSeconds(),
+                date.getUTCMilliseconds()
+        ));
+        }
+
         await collection.insertOne(data);
     }
 
