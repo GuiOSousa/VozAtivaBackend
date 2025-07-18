@@ -1,12 +1,19 @@
 import express from "express";
+import cors from 'cors';
 import { AlertRepository } from "./repositories/alertRepository.js";
 import { UserRepository } from "./repositories/userReposiory.js";
 
 export const app = express()
-export const port = 3000
+export const port = 3001
 
 const alertRepository = new AlertRepository()
 const userRepository = new UserRepository()
+
+
+app.use(cors({
+	origin: 'http://localhost:3000',
+	credentials: true,
+}));
 
 app.use(express.json());
 
