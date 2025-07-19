@@ -22,12 +22,14 @@ app.get('/', (req, res) => {
 })
 
 app.get('/alert', async (req, res) => {
-  const filters = req.body
+  const filters = req.query
+  console.log(filters)
   const alerts = await alertRepository.getAlerts(filters)
   res.send(alerts)
 })
-
+ 
 app.post('/alert', async(req, res) => {
+  console.log(req.body)
   await alertRepository.createAlert(req.body)
   res.send(201)
 })
@@ -39,6 +41,7 @@ app.get('/user', async (req, res) => {
 })
 
 app.post('/user', async(req, res) => {
+  console.log(req.body)
   await userRepository.createUser(req.body)
   res.send(201)
 })
