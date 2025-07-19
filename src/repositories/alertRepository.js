@@ -14,6 +14,30 @@ export class AlertRepository {
         return filters
     }
 
+    async handleLocation(alertData) {
+        if (alertData.lat && alertData.long) {
+            alertData.coords = {
+                "lat": alertData.lat,
+                "long": alertData.long,
+            }
+            delete alertData.lat
+            delete alertData.long
+        }
+
+        const json = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${alertData.coords.lat}&lon=${alertData.coords.long}`)
+        const data = await json.json()
+        const address = data.address;
+        
+        alertData.location = {
+            "country": address.country,
+            "state": address.state,
+            "city": address.city || address.town || address.village
+        }
+
+
+        return alertData
+    }
+
     async getCollection() {
         await client.connect();
         const dbName = "voz-ativa";
@@ -22,14 +46,7 @@ export class AlertRepository {
     }
 
     async createAlert( data ) {
-        if (data.lat && data.long) {
-            data.coords = {
-                "lat": data.lat,
-                "long": data.long,
-            }
-            delete data.lat
-            delete data.long
-        }
+        data = await this.handleLocation(data)
 
         const collection = await this.getCollection();
         await collection.insertOne(data);
