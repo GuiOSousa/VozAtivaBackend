@@ -33,29 +33,37 @@ export class AlertRepository {
     }
 
     async handleLocation(alertData) {
-        if (alertData.lat && alertData.long) {
-            alertData.coords = {
-                "lat": alertData.lat,
-                "long": alertData.long,
-            }
-            delete alertData.lat
-            delete alertData.long
-        }
-
-        const json = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${alertData.coords.lat}&lon=${alertData.coords.long}`)
-        const data = await json.json()
-        const address = data.address;
-
-        if (address) {
-            alertData.location = {
-            "country": address.country,
-            "state": address.state,
-            "city": address.city || address.town || address.village
-        }
-        }
-
-        return alertData
+    if (alertData.lat && alertData.long) {
+        alertData.coords = {
+            lat: alertData.lat,
+            long: alertData.long,
+        };
+        delete alertData.lat;
+        delete alertData.long;
     }
+
+    const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${alertData.coords.lat}&lon=${alertData.coords.long}`,
+        {
+            headers: {
+                "User-Agent": "VozAtiva/1.0 (guilherme.olivesousa@gmail.com)"
+            }
+        }
+    );
+
+    const data = await response.json();
+    const address = data.address;
+
+    if (address) {
+        alertData.location = {
+            country: address.country,
+            state: address.state,
+            city: address.city || address.town || address.village
+        };
+    }
+
+    return alertData;
+}
 
     async getCollection() {
         await client.connect();
