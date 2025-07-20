@@ -73,10 +73,21 @@ export class AlertRepository {
         await collection.insertOne(data);
     }
 
+    async createManyAlerts(array) {
+        array.forEach(async (data) => {
+            await this.createAlert(data)
+        });
+    }
+
     async getAlerts(filters) {
         const collection = await this.getCollection();
         filters = this.handleDictionary(filters)
         const alerts = await collection.find(filters).toArray();
         return alerts;
+    }
+
+    async deleteAllData() {
+        const collection = await this.getCollection();
+        await collection.deleteMany({})
     }
 }

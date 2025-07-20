@@ -11,7 +11,7 @@ const userRepository = new UserRepository()
 
 
 app.use(cors({
-	origin: 'http://localhost:3000',
+	origin: 'https://voz-ativa-front.vercel.app/',
 	credentials: true,
 }));
 
@@ -29,6 +29,11 @@ app.get('/alert', async (req, res) => {
  
 app.post('/alert', async(req, res) => {
   await alertRepository.createAlert(req.body)
+  res.send(201)
+})
+
+app.post('/alert/many', async(req, res) => {
+  await alertRepository.createManyAlerts(req.body)
   res.send(201)
 })
 
