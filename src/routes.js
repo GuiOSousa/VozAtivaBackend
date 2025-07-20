@@ -4,7 +4,7 @@ import { AlertRepository } from "./repositories/alertRepository.js";
 import { UserRepository } from "./repositories/userReposiory.js";
 
 export const app = express()
-export const port = 3001
+export const port = process.env.PORT || 3000
 
 const alertRepository = new AlertRepository()
 const userRepository = new UserRepository()
