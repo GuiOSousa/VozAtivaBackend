@@ -27,10 +27,15 @@ app.get('/alert', async (req, res) => {
   res.send(alerts)
 })
  
-app.post('/alert', async(req, res) => {
-  await alertRepository.createAlert(req.body)
-  res.send(201)
-})
+app.post('/alert', async (req, res) => {
+  try {
+    const novoAlerta = await alertRepository.createAlert(req.body);
+    res.status(201).json(novoAlerta);
+  } catch (error) {
+    console.error("Erro ao criar alerta:", error);
+    res.status(500).json({ error: "Erro ao criar alerta" });
+  }
+});
 
 app.post('/alert/many', async(req, res) => {
   await alertRepository.createManyAlerts(req.body)
