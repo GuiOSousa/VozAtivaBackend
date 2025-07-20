@@ -11,7 +11,7 @@ const userRepository = new UserRepository()
 
 
 app.use(cors({
-	origin: 'https://voz-ativa-front.vercel.app/',
+	origin: 'https://voz-ativa-front.vercel.app',
 	credentials: true,
 }));
 
