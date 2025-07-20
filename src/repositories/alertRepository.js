@@ -11,6 +11,24 @@ export class AlertRepository {
         if (filters.date) {
 		    filters.date = { $regex: filters.date, $options: 'i' };
 	    }
+
+        if (filters.country) {
+            filters["location.country"] = filters.country
+            delete filters.country
+        }
+
+        if (filters.state) {
+            filters["location.state"] = filters.state
+            delete filters.state
+        }
+
+        if (filters.city) {
+            filters["location.city"] = filters.city
+            delete filters.city
+        }
+        
+        console.log(filters)
+
         return filters
     }
 
@@ -27,13 +45,14 @@ export class AlertRepository {
         const json = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${alertData.coords.lat}&lon=${alertData.coords.long}`)
         const data = await json.json()
         const address = data.address;
-        
-        alertData.location = {
+
+        if (address) {
+            alertData.location = {
             "country": address.country,
             "state": address.state,
             "city": address.city || address.town || address.village
         }
-
+        }
 
         return alertData
     }
@@ -47,6 +66,8 @@ export class AlertRepository {
 
     async createAlert( data ) {
         data = await this.handleLocation(data)
+
+        console.log(data)
 
         const collection = await this.getCollection();
         await collection.insertOne(data);
